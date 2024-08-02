@@ -13,9 +13,13 @@ class RandomJokeScreen extends StatelessWidget {
         //TODO(Cristian) - improve theme calls
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         //TODO(Cristian) - improve text management
-        title: Text("Random Joke"),
+        title: const Text("Random Joke"),
       ),
-      body: Center(
+      body: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
+        alignment: Alignment.center,
         child: BlocBuilder<RandomJokeCubit, RandomJokeState>(
           builder: (context, state) {
             final RandomJokeState(:status, :joke) = state;
@@ -27,6 +31,11 @@ class RandomJokeScreen extends StatelessWidget {
             }
             return Text(
               joke?.joke ?? '',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             );
           },
         ),
