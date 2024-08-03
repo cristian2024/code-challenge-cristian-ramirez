@@ -27,6 +27,7 @@ class RandomJokeScreen extends StatelessWidget {
               return const CircularProgressIndicator();
             } else if (status == Status.finished && joke == null) {
               //TODO(Cristian) - deal with border case
+              
               return const CircularProgressIndicator();
             }
             return Text(
