@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:i_can_haz_dad_joke/data/models/joke_model_common.dart';
-
+import 'package:i_can_haz_dad_joke/data.dart';
 import 'package:i_can_haz_dad_joke/domain.dart';
 
 class JokesRepositoryCommon extends JokesRepository {
@@ -20,6 +19,29 @@ class JokesRepositoryCommon extends JokesRepository {
       }
       final jokeBody = jsonDecode(response.body);
       return JokeModelCommon.fromMap(jokeBody);
+    } catch (e) {
+      //TODO(Cristian) - Exception management
+      rethrow;
+    }
+  }
+
+  @override
+  Future<JokesListResponseModel> getJokes(JokeQuery queryData) async {
+    try {
+      final endpoint = Uri.parse(Endpoints.jokeList(
+        page: queryData.page,
+        limit: queryData.limit,
+      ));
+      final response = await http.get(
+        endpoint,
+        headers: {"Accept": "application/json"},
+      );
+      if (response.statusCode != 200) {
+        //TODO(Cristian) - custom exception management
+        throw Exception();
+      }
+      final jokeBody = jsonDecode(response.body);
+      return JokesListResponseModel.fromMap(jokeBody);
     } catch (e) {
       //TODO(Cristian) - Exception management
       rethrow;

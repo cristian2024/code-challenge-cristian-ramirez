@@ -6,5 +6,5 @@ abstract class Endpoints {
     int page = 1,
     int limit = 15,
   }) =>
-      '$_baseJokeEndpoint?page=$page&limit=$limit';
+      '${_baseJokeEndpoint}search?page=$page&limit=$limit';
 }
