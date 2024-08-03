@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_can_haz_dad_joke/data.dart';
+import 'package:i_can_haz_dad_joke/ui.dart';
 import 'package:i_can_haz_dad_joke/bloc/jokes/jokes_bloc.dart';
 import 'package:i_can_haz_dad_joke/bloc/random_joke/random_joke_cubit.dart';
-import 'package:i_can_haz_dad_joke/data.dart';
-import 'package:i_can_haz_dad_joke/ui/screens.dart';
-// import 'package:i_can_haz_dad_joke/ui/screens/jokes_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,10 +30,12 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        // themeMode: ThemeMode.dark,
+        title: 'Random dad jokes',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
           useMaterial3: true,
+          textTheme: baseTextTheme.call(),
         ),
         home: const JokesListScreen(),
       ),

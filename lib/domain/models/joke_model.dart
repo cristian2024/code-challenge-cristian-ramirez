@@ -7,4 +7,10 @@ abstract class JokeModel {
     required this.id,
   });
   
+
+  @override
+  String toString() {
+    
+    return joke;
+  }
 }

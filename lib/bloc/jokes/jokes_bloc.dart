@@ -14,6 +14,12 @@ class JokesBloc extends Bloc<JokesEvent, JokesState> {
           const JokesState(query: JokeQuery()),
         ) {
     on<GetNextJokeListEvent>(_getNextJokes);
+    on<ClearListJokesEvent>(
+      (event, emit) {
+        emit(state.copyWith(jokes: [], query: const JokeQuery()));
+        add(GetNextJokeListEvent());
+      },
+    );
   }
 
   final JokesRepository _repository;
