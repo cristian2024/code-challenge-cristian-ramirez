@@ -37,7 +37,71 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           textTheme: baseTextTheme.call(),
         ),
-        home: const JokesListScreen(),
+        home: const App(),
+      ),
+    );
+  }
+}
+
+class App extends StatefulWidget {
+  const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+enum Page {
+  randomJoke(0),
+  listJokes(1);
+
+  const Page(this.indexx);
+  //index is already used by enum class
+  final int indexx;
+}
+
+extension PageIntExtension on int {
+  Page getPage() {
+    return switch (this) {
+      0 => Page.randomJoke,
+      1 => Page.listJokes,
+      _ => throw Exception()
+    };
+  }
+}
+
+class _AppState extends State<App> {
+  Page actualPage = Page.randomJoke;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Builder(
+        builder: (context) {
+          return switch (actualPage) {
+            Page.listJokes => const JokesListScreen(),
+            Page.randomJoke => const RandomJokeScreen()
+          };
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: actualPage.index,
+        onTap: (value) {
+          setState(() {
+            actualPage = value.getPage();
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.refresh),
+            tooltip: "Random joke",
+            label:  "Random jokes",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            tooltip: "Jokes list",
+            label: "Jokes list",
+          ),
+        ],
       ),
     );
   }

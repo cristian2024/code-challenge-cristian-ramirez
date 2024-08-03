@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_can_haz_dad_joke/bloc/jokes/jokes_bloc.dart';
-import 'package:i_can_haz_dad_joke/domain.dart';
 import 'package:i_can_haz_dad_joke/ui.dart';
 
 class JokesListScreen extends StatefulWidget {
@@ -34,7 +33,6 @@ class _JokesListScreenState extends State<JokesListScreen> {
       :maxScrollExtent,
     ) = _scrollController.position;
     if (pixels == maxScrollExtent) {
-      //TODO(Cristian) - call next item
       context.read<JokesBloc>().add(GetNextJokeListEvent());
     }
   }
@@ -49,7 +47,7 @@ class _JokesListScreenState extends State<JokesListScreen> {
         title: const Text("Random Joke"),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 16,
         ),
         alignment: Alignment.center,
