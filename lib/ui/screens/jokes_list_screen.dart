@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_can_haz_dad_joke/bloc/jokes/jokes_bloc.dart';
-import 'package:i_can_haz_dad_joke/domain.dart';
+import 'package:i_can_haz_dad_joke/ui.dart';
 
 class JokesListScreen extends StatefulWidget {
   const JokesListScreen({super.key});
@@ -33,7 +33,6 @@ class _JokesListScreenState extends State<JokesListScreen> {
       :maxScrollExtent,
     ) = _scrollController.position;
     if (pixels == maxScrollExtent) {
-      //TODO(Cristian) - call next item
       context.read<JokesBloc>().add(GetNextJokeListEvent());
     }
   }
@@ -48,7 +47,7 @@ class _JokesListScreenState extends State<JokesListScreen> {
         title: const Text("Random Joke"),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 16,
         ),
         alignment: Alignment.center,
@@ -70,20 +69,11 @@ class _JokesListScreenState extends State<JokesListScreen> {
                     itemCount: jokes.length,
                     itemBuilder: (context, index) {
                       final joke = jokes[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.black),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
                         ),
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          joke.joke,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        child: JokeCard(joke: joke),
                       );
                     },
                   ),
@@ -96,11 +86,11 @@ class _JokesListScreenState extends State<JokesListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //TODO(Cristian) - función para recargar
+          context.read<JokesBloc>().add(ClearListJokesEvent());
         },
         tooltip: 'Refresh list',
         child: const Icon(Icons.refresh),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
