@@ -8,37 +8,35 @@ class RandomJokeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: InkWell(
-        onLongPress: () => refreshJoke(context),
-        onDoubleTap: () => refreshJoke(context),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          alignment: Alignment.center,
-          child: BlocBuilder<RandomJokeCubit, RandomJokeState>(
-            builder: (context, state) {
-              final RandomJokeState(:status, :joke) = state;
-              if (status == Status.loading) {
-                return const CircularProgressIndicator();
-              } else if (status == Status.finished && joke == null) {
-                //TODO(Cristian) - deal with border case
-
-                return const CircularProgressIndicator();
-              }
-              return Text(
-                joke?.joke ?? '',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              );
-            },
-          ),
+    return InkWell(
+      onLongPress: () => refreshJoke(context),
+      onDoubleTap: () => refreshJoke(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        alignment: Alignment.center,
+        child: BlocBuilder<RandomJokeCubit, RandomJokeState>(
+          builder: (context, state) {
+            final RandomJokeState(:status, :joke) = state;
+            if (status == Status.loading) {
+              return const CircularProgressIndicator();
+            } else if (status == Status.finished && joke == null) {
+              //TODO(Cristian) - deal with border case
+
+              return const CircularProgressIndicator();
+            }
+            return Text(
+              joke?.joke ?? '',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            );
+          },
+        ),
+      ),
     );
   }
 
