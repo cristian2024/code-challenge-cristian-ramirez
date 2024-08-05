@@ -9,12 +9,6 @@ class RandomJokeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //TODO(Cristian) - improve theme calls
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        //TODO(Cristian) - improve text management
-        title: const Text("Random Joke"),
-      ),
       body: InkWell(
         onLongPress: () => refreshJoke(context),
         onDoubleTap: () => refreshJoke(context),
@@ -44,11 +38,6 @@ class RandomJokeScreen extends StatelessWidget {
             },
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => refreshJoke(context),
-        tooltip: 'Refresh joke',
-        child: const Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

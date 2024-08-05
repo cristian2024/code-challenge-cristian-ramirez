@@ -75,6 +75,12 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        //TODO(Cristian) - improve theme calls
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        //TODO(Cristian) - improve text management
+        title: const Text("Random Joke"),
+      ),
       body: Builder(
         builder: (context) {
           return switch (actualPage) {
@@ -83,18 +89,31 @@ class _AppState extends State<App> {
           };
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => refreshJoke(context),
+        tooltip: 'Refresh joke',
+        child: const Icon(Icons.refresh),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: actualPage.index,
         onTap: (value) {
+          final page = value.getPage();
+          if (page == actualPage) {
+            if (page == Page.randomJoke) {
+              context.read<RandomJokeCubit>().getRandomJoke();
+            }
+            //it is not necessary to reload anything
+            return;
+          }
           setState(() {
-            actualPage = value.getPage();
+            actualPage = page;
           });
         },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.refresh),
             tooltip: "Random joke",
-            label:  "Random jokes",
+            label: "Random jokes",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
@@ -104,5 +123,15 @@ class _AppState extends State<App> {
         ],
       ),
     );
+  }
+
+  void refreshJoke(BuildContext context) {
+    context.read<RandomJokeCubit>().getRandomJoke();
+    //validating that the screen is in the random joke
+    if (actualPage != Page.randomJoke) {
+      setState(() {
+        actualPage = Page.randomJoke;
+      });
+    }
   }
 }

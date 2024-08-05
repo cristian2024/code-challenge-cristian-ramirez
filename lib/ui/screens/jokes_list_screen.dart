@@ -40,12 +40,7 @@ class _JokesListScreenState extends State<JokesListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //TODO(Cristian) - improve theme calls
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        //TODO(Cristian) - improve text management
-        title: const Text("Random Joke"),
-      ),
+      
       body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -64,18 +59,23 @@ class _JokesListScreenState extends State<JokesListScreen> {
             return Column(
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: jokes.length,
-                    itemBuilder: (context, index) {
-                      final joke = jokes[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                        ),
-                        child: JokeCard(joke: joke),
-                      );
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<JokesBloc>().add(ClearListJokesEvent());
                     },
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: jokes.length,
+                      itemBuilder: (context, index) {
+                        final joke = jokes[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                          ),
+                          child: JokeCard(joke: joke),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 if (state.isLoading) const CircularProgressIndicator(),
@@ -83,13 +83,6 @@ class _JokesListScreenState extends State<JokesListScreen> {
             );
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<JokesBloc>().add(ClearListJokesEvent());
-        },
-        tooltip: 'Refresh list',
-        child: const Icon(Icons.refresh),
       ),
     );
   }
